@@ -1,0 +1,46 @@
+/* External CSS for improved maintainability */
+body {
+    font-family: 'Inter', sans-serif;
+}
+.gradient-hero {
+    background: linear-gradient(135deg, #0f766e 0%, #10b981 100%);
+}
+.animate-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(145deg, #ffffff, #f3f4f6);
+}
+.animate-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+.chatbot-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0f766e;
+    color: white;
+    padding: 12px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+}
+.chatbot-btn:hover {
+    transform: scale(1.1);
+}
+.chatbot-window {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 1000;
+    border: 1px solid #10b981;
+}
+.chatbot-window.active {
+    display: block;
+}
