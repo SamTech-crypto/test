@@ -1,3 +1,11 @@
+import streamlit as st
+import streamlit.components.v1 as components
+
+# Set page configuration
+st.set_page_config(page_title="Nexlify Solutions", layout="wide")
+
+# HTML content (your original HTML with modifications)
+html_content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,6 +125,34 @@
         }
         .btn-accent:hover {
             background-color: #d97706;
+        }
+        .testimonials-container {
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .testimonials-track {
+            display: flex;
+            animation: slideLeft 20s linear infinite;
+        }
+        .testimonials-track.paused {
+            animation-play-state: paused;
+        }
+        .testimonial-card {
+            flex: 0 0 33.333%;
+            margin-right: 1.5rem;
+            min-width: 300px;
+        }
+        @keyframes slideLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        @media (max-width: 768px) {
+            .testimonial-card {
+                flex: 0 0 100%;
+                min-width: 100%;
+            }
         }
     </style>
 </head>
@@ -289,18 +325,33 @@
         <section id="testimonials" class="py-20 bg-white" role="region" aria-label="Testimonials">
             <div class="container mx-auto">
                 <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800">Client Success Stories</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="bg-white p-6 rounded-xl shadow-lg fade-in">
-                        <p class="text-gray-600 mb-4">"*FinDash* streamlined our financial tracking, saving us 20 hours monthly."</p>
-                        <p class="font-semibold text-teal-800">Sarah Lee, Owner of FitPulse Gym</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg fade-in">
-                        <p class="text-gray-600 mb-4">"*ESG Radar* helped us secure $1.5M by showcasing our sustainability efforts."</p>
-                        <p class="font-semibold text-teal-800">Michael Chen, CEO of TravelTech Ventures</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-xl shadow-lg fade-in">
-                        <p class="text-gray-600 mb-4">"*InvoFi* cut our transaction costs by 60%."</p>
-                        <p class="font-semibold text-teal-800">Ahmed Khan, CEO of TradeFlow</p>
+                <div class="testimonials-container" onmouseenter="pauseAnimation()" onmouseleave="resumeAnimation()">
+                    <div class="testimonials-track">
+                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                            <p class="text-gray-600 mb-4">"*FinDash* streamlined our financial tracking, saving us 20 hours monthly."</p>
+                            <p class="font-semibold text-teal-800">Sarah Lee, Owner of FitPulse Gym</p>
+                        </div>
+                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                            <p class="text-gray-600 mb-4">"*ESG Radar* helped us secure $1.5M by showcasing our sustainability efforts."</p>
+                            <p class="font-semibold text-teal-800">Michael Chen, CEO of TravelTech Ventures</p>
+                        </div>
+                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                            <p class="text-gray-600 mb-4">"*InvoFi* cut our transaction costs by 60%."</p>
+                            <p class="font-semibold text-teal-800">Ahmed Khan, CEO of TradeFlow</p>
+                        </div>
+                        <!-- Duplicate cards for seamless looping -->
+                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                            <p class="text-gray-600 mb-4">"*FinDash* streamlined our financial tracking, saving us 20 hours monthly."</p>
+                            <p class="font-semibold text-teal-800">Sarah Lee, Owner of FitPulse Gym</p>
+                        </div>
+                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                            <p class="text-gray-600 mb-4">"*ESG Radar* helped us secure $1.5M by showcasing our sustainability efforts."</p>
+                            <p class="font-semibold text-teal-800">Michael Chen, CEO of TravelTech Ventures</p>
+                        </div>
+                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                            <p class="text-gray-600 mb-4">"*InvoFi* cut our transaction costs by 60%."</p>
+                            <p class="font-semibold text-teal-800">Ahmed Khan, CEO of TradeFlow</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -457,7 +508,7 @@
             </div>
             <div class="flex flex-col gap-2">
                 <div class="flex gap-2">
-                    <input type="text" id="chatbot-input" placeholder="Type your question..." class="flex-1 p-2 rounded border focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Chatbot input">
+                    <input type="text" id="chatbot-input" placeholder "Type your question..." class="flex-1 p-2 rounded border focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Chatbot input">
                     <button onclick="submitChat()" class="btn-accent py-2 px-4 rounded" aria-label="Send message">Send</button>
                 </div>
                 <div class="flex flex-wrap gap-2">
@@ -570,6 +621,19 @@
         document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') submitChat();
         });
+
+        // Testimonials animation control
+        function pauseAnimation() {
+            document.querySelector('.testimonials-track').classList.add('paused');
+        }
+
+        function resumeAnimation() {
+            document.querySelector('.testimonials-track').classList.remove('paused');
+        }
     </script>
 </body>
 </html>
+"""
+
+# Render HTML content
+components.html(html_content, height=2000, scrolling=True)
