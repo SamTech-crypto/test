@@ -1,11 +1,3 @@
-import streamlit as st
-import streamlit.components.v1 as components
-
-# Set page configuration
-st.set_page_config(page_title="Nexlify Solutions", layout="wide")
-
-# HTML content (your original HTML with modifications)
-html_content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,14 +17,7 @@ html_content = """
             font-family: 'Inter', sans-serif;
         }
         .gradient-hero {
-            background: linear-gradient(135deg, #0f766e, #10b981, #047857, #0f766e);
-            background-size: 200% 200%;
-            animation: gradientFlow 10s ease infinite;
-        }
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            background: linear-gradient(135deg, #0f766e 0%, #10b981 100%);
         }
         .animate-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -67,92 +52,110 @@ html_content = """
             right: 20px;
             background-color: #0f766e;
             color: white;
-            padding: 12px;
+            padding: 16px;
             border-radius: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             z-index: 1000;
-            transition: transform 0.3s ease, background-color 0.3s ease;
+            transition: transform 0.2s ease, background-color 0.3s ease;
         }
         .chatbot-btn:hover {
-            transform: scale(1.1) rotate(10deg);
+            transform: scale(1.1);
             background-color: #10b981;
-        }
-        .chatbot-btn[aria-expanded="true"] {
-            background-color: #f59e0b;
         }
         .chatbot-window {
             position: fixed;
             bottom: 80px;
             right: 20px;
             width: 320px;
-            max-height: 400px;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             display: none;
             z-index: 1000;
             border: 1px solid #10b981;
-            animation: slideIn 0.3s ease forwards;
         }
         .chatbot-window.active {
             display: block;
         }
-        @keyframes slideIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .quick-reply-btn {
+            background-color: #f3f4f6;
+            color: #0f766e;
+            padding: 8px 12px;
+            margin: 4px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
         }
-        .chatbot-messages p {
-            margin-bottom: 8px;
-            padding: 8px;
-            border-radius: 8px;
-        }
-        .chatbot-messages p.bot {
-            background: #e6fffa;
-            text-align: left;
-        }
-        .chatbot-messages p.user {
-            background: #10b981;
+        .quick-reply-btn:hover {
+            background-color: #10b981;
             color: white;
-            text-align: right;
         }
         nav, footer {
             background-color: #0f766e;
+            transition: background-color 0.3s ease;
+        }
+        nav:hover {
+            background-color: #115e59;
         }
         .btn-accent {
             background-color: #f59e0b;
             color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .btn-accent:hover {
             background-color: #d97706;
+            transform: scale(1.05);
         }
-        .testimonials-container {
-            display: flex;
+        .testimonial-container {
+            background: linear-gradient(135deg, #10b981 0%, #0f766e 100%);
+            padding: 20px;
+            border-radius: 12px;
             overflow: hidden;
             position: relative;
-            width: 100%;
         }
-        .testimonials-track {
+        .testimonial-track {
             display: flex;
-            animation: slideLeft 20s linear infinite;
+            animation: scroll-left 20s linear infinite;
         }
-        .testimonials-track.paused {
+        .testimonial-track:hover {
             animation-play-state: paused;
         }
         .testimonial-card {
-            flex: 0 0 33.333%;
-            margin-right: 1.5rem;
-            min-width: 300px;
+            flex: 0 0 auto;
+            background: white;
+            padding: 16px;
+            margin-right: 16px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        @keyframes slideLeft {
+        @keyframes scroll-left {
             0% { transform: translateX(0); }
             100% { transform: translateX(-100%); }
         }
-        @media (max-width: 768px) {
-            .testimonial-card {
-                flex: 0 0 100%;
-                min-width: 100%;
-            }
+        .faq-item {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .faq-item:hover {
+            background-color: #f3f4f6;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-answer.active {
+            max-height: 200px;
+        }
+        .color-change-text {
+            animation: colorChange 5s infinite;
+        }
+        @keyframes colorChange {
+            0% { color: #f59e0b; }
+            50% { color: #10b981; }
+            100% { color: #f59e0b; }
         }
     </style>
 </head>
@@ -185,7 +188,7 @@ html_content = """
         <!-- Home Section -->
         <section id="home" class="gradient-hero text-white py-24" role="region" aria-label="Home">
             <div class="container mx-auto text-center">
-                <h2 class="text-5xl font-extrabold mb-6 fade-in">Fintech & ESG Solutions for SMEs</h2>
+                <h2 class="text-5xl font-extrabold mb-6 fade-in color-change-text">Fintech & ESG Solutions for SMEs</h2>
                 <p class="text-xl max-w-3xl mx-auto mb-8 fade-in">Nexlify Solutions delivers AI-driven fintech and ESG tools, cutting costs by up to 60% and boosting SME growth with blockchain and quantum tech.</p>
                 <div class="flex justify-center space-x-4 flex-wrap gap-4">
                     <a href="#contact" class="inline-block btn-accent font-semibold py-3 px-8 rounded-full transition-colors fade-in">Book a Free Consultation</a>
@@ -197,16 +200,16 @@ html_content = """
         <!-- Why ESG & DeFi Section -->
         <section id="why-esg-defi" class="py-20 bg-gray-100" role="region" aria-label="Why ESG & DeFi">
             <div class="container mx-auto text-center">
-                <h2 class="text-4xl font-bold mb-8 fade-in text-teal-800">Why ESG & DeFi Matter</h2>
+                <h2 class="text-4xl font-bold mb-8 fade-in text-teal-800 color-change-text">Why ESG & DeFi Matter</h2>
                 <p class="text-lg max-w-3xl mx-auto mb-8 fade-in text-gray-700">ESG compliance attracts investors and ensures sustainability, while DeFi unlocks low-cost financing. Our AI-driven tools simplify both for SMEs.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">ESG Benefits</h3>
-                        <p class="text-gray-600 mb-4">Align with investor demands and cut reporting costs by 70% with *ESG Radar*.</p>
+                        <p class="text-gray-600 mb-4">Align with investor demands and cut reporting costs by 70% with <span class="color-change-text">*ESG Radar*</span>.</p>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">DeFi Advantages</h3>
-                        <p class="text-gray-600 mb-4">Access low-cost loans via blockchain with *InvoFi*, saving 60% on transactions.</p>
+                        <p class="text-gray-600 mb-4">Access low-cost loans via blockchain with <span class="color-change-text">*InvoFi*</span>, saving 60% on transactions.</p>
                     </div>
                 </div>
                 <a href="#contact" class="mt-6 inline-block btn-accent text-white py-3 px-8 rounded-full transition-colors fade-in">Learn How We Help</a>
@@ -216,7 +219,7 @@ html_content = """
         <!-- Case Studies Section -->
         <section id="case-studies" class="py-20 bg-white" role="region" aria-label="Case Studies">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800">Case Studies</h2>
+                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800 color-change-text">Case Studies</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">InvoFi: Decentralized Financing</h3>
@@ -234,6 +237,7 @@ html_content = """
                             <a href="#interactive-esg" class="text-teal-600 hover:underline">View Interactive Chart</a>
                         </div>
                     </div>
+ |
                 </div>
             </div>
         </section>
@@ -241,12 +245,12 @@ html_content = """
         <!-- Projects Section -->
         <section id="projects" class="py-20 bg-gray-100" role="region" aria-label="Projects">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800">Our Solutions</h2>
+                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800 color-change-text">Our Solutions</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Fintech Tools -->
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">Fintech Tools</h3>
-                        <p class="text-gray-600 mb-4">Track KPIs with *FinDash* and automate models with *AutoModeler*, saving 50% on reporting time.</p>
+                        <p class="text-gray-600 mb-4">Track KPIs with <span class="color-change-text">*FinDash*</span> and automate models with <span class="color-change-text">*AutoModeler*</span>, saving 50% on reporting time.</p>
                         <p><strong>Tools:</strong> Tableau, SQL, Python, Streamlit</p>
                         <p class="text-gray-600 mt-2">Mockup: FinDash dashboard with KPI cards, line/pie charts, and real-time updates.</p>
                         <div class="mt-4 space-x-4">
@@ -257,7 +261,7 @@ html_content = """
                     <!-- ESG Solutions -->
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">ESG Solutions</h3>
-                        <p class="text-gray-600 mb-4">Simplify compliance with *ESG Radar* and *Automated ESG Suite*, cutting costs by 70%.</p>
+                        <p class="text-gray-600 mb-4">Simplify compliance with <span class="color-change-text">*ESG Radar*</span> and <span class="color-change-text">*Automated ESG Suite*</span>, cutting costs by 70%.</p>
                         <p><strong>Tools:</strong> Python, BI Tools, Streamlit</p>
                         <div class="mt-4 space-x-4">
                             <a href="https://github.com/SamTech-crypto/esg-radar" target="_blank" class="text-teal-600 hover:underline">GitHub</a>
@@ -267,7 +271,7 @@ html_content = """
                     <!-- DeFi & Blockchain -->
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">DeFi & Blockchain</h3>
-                        <p class="text-gray-600 mb-4">Streamline financing with *InvoFi*, reducing transaction costs by 60%.</p>
+                        <p class="text-gray-600 mb-4">Streamline financing with <span class="color-change-text">*InvoFi*</span>, reducing transaction costs by 60%.</p>
                         <p><strong>Tools:</strong> Ethereum, Solidity, Chainlink, Streamlit</p>
                         <div class="mt-4 space-x-4">
                             <a href="https://github.com/SamTech-crypto/InvoFi" target="_blank" class="text-teal-600 hover:underline">GitHub</a>
@@ -277,7 +281,7 @@ html_content = """
                     <!-- AI & Risk Management -->
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">AI & Risk Management</h3>
-                        <p class="text-gray-600 mb-4">Boost retention by 30% with *Customer Retention Engine* and *Predictive Risk Modeling*.</p>
+                        <p class="text-gray-600 mb-4">Boost retention by 30% with <span class="color-change-text">*Customer Retention Engine*</span> and <span class="color-change-text">*Predictive Risk Modeling*</span>.</p>
                         <p><strong>Tools:</strong> TensorFlow, scikit-learn, Streamlit</p>
                         <div class="mt-4 space-x-4">
                             <a href="https://github.com/SamTech-crypto/CustomerChurnPredictor" target="_blank" class="text-teal-600 hover:underline">GitHub</a>
@@ -287,7 +291,7 @@ html_content = """
                     <!-- Quantum Optimization -->
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">Quantum Optimization</h3>
-                        <p class="text-gray-600 mb-4">Reduce portfolio risk by 40% with *Quantum Financial Optimizer*.</p>
+                        <p class="text-gray-600 mb-4">Reduce portfolio risk by 40% with <span class="color-change-text">*Quantum Financial Optimizer*</span>.</p>
                         <p><strong>Tools:</strong> Qiskit, Python, AWS Braket</p>
                         <div class="mt-4 space-x-4">
                             <a href="https://github.com/SamTech-crypto/quantum-financial-optimizer" target="_blank" class="text-teal-600 hover:underline">GitHub</a>
@@ -300,21 +304,21 @@ html_content = """
         <!-- Solutions Section -->
         <section id="solutions" class="py-20 bg-gray-100" role="region" aria-label="Solutions">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800">Solve Your Challenges</h2>
+                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800 color-change-text">Solve Your Challenges</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">Inefficient Financial Modeling</h3>
-                        <p class="text-gray-600 mb-4">Automate with *AutoModeler* for 50% faster models. Onboard in 1 week.</p>
+                        <p class="text-gray-600 mb-4">Automate with <span class="color-change-text">*AutoModeler*</span> for 50% faster models. Onboard in 1 week.</p>
                         <a href="#contact" class="text-teal-600 hover:underline">Start Free Trial</a>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">ESG Compliance</h3>
-                        <p class="text-gray-600 mb-4">Simplify reporting with *ESG Radar*. Cut costs by 70%. Ready in 1 week.</p>
+                        <p class="text-gray-600 mb-4">Simplify reporting with <span class="color-change-text">*ESG Radar*</span>. Cut costs by 70%. Ready in 1 week.</p>
                         <a href="#contact" class="text-teal-600 hover:underline">Start Free Trial</a>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">DeFi Navigation</h3>
-                        <p class="text-gray-600 mb-4">Gain clarity with *DeFi Analytics Suite*. Deploy in 1 week.</p>
+                        <p class="text-gray-600 mb-4">Gain clarity with <span class="color-change-text">*DeFi Analytics Suite*</span>. Deploy in 1 week.</p>
                         <a href="#contact" class="text-teal-600 hover:underline">Start Free Trial</a>
                     </div>
                 </div>
@@ -324,33 +328,28 @@ html_content = """
         <!-- Testimonials Section -->
         <section id="testimonials" class="py-20 bg-white" role="region" aria-label="Testimonials">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800">Client Success Stories</h2>
-                <div class="testimonials-container" onmouseenter="pauseAnimation()" onmouseleave="resumeAnimation()">
-                    <div class="testimonials-track">
-                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800 color-change-text">Client Success Stories</h2>
+                <div class="testimonial-container">
+                    <div class="testimonial-track">
+                        <div class="testimonial-card">
                             <p class="text-gray-600 mb-4">"*FinDash* streamlined our financial tracking, saving us 20 hours monthly."</p>
                             <p class="font-semibold text-teal-800">Sarah Lee, Owner of FitPulse Gym</p>
                         </div>
-                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                        <div class="testimonial-card">
                             <p class="text-gray-600 mb-4">"*ESG Radar* helped us secure $1.5M by showcasing our sustainability efforts."</p>
                             <p class="font-semibold text-teal-800">Michael Chen, CEO of TravelTech Ventures</p>
                         </div>
-                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
+                        <div class="testimonial-card">
                             <p class="text-gray-600 mb-4">"*InvoFi* cut our transaction costs by 60%."</p>
                             <p class="font-semibold text-teal-800">Ahmed Khan, CEO of TradeFlow</p>
                         </div>
-                        <!-- Duplicate cards for seamless looping -->
-                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
-                            <p class="text-gray-600 mb-4">"*FinDash* streamlined our financial tracking, saving us 20 hours monthly."</p>
-                            <p class="font-semibold text-teal-800">Sarah Lee, Owner of FitPulse Gym</p>
+                        <div class="testimonial-card">
+                            <p class="text-gray-600 mb-4">"*AutoModeler* reduced our forecasting time by 40%."</p>
+                            <p class="font-semibold text-teal-800">Emma Brown, RetailEasy SME</p>
                         </div>
-                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
-                            <p class="text-gray-600 mb-4">"*ESG Radar* helped us secure $1.5M by showcasing our sustainability efforts."</p>
-                            <p class="font-semibold text-teal-800">Michael Chen, CEO of TravelTech Ventures</p>
-                        </div>
-                        <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg fade-in">
-                            <p class="text-gray-600 mb-4">"*InvoFi* cut our transaction costs by 60%."</p>
-                            <p class="font-semibold text-teal-800">Ahmed Khan, CEO of TradeFlow</p>
+                        <div class="testimonial-card">
+                            <p class="text-gray-600 mb-4">"*ESG Radar* helped us attract $500K in green funding."</p>
+                            <p class="font-semibold text-teal-800">Liam Carter, GreenEnergy Co.</p>
                         </div>
                     </div>
                 </div>
@@ -360,21 +359,21 @@ html_content = """
         <!-- Blog Section -->
         <section id="blog" class="py-20 bg-gray-100" role="region" aria-label="Blog">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800">Insights & Updates</h2>
+                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800 color-change-text">Insights & Updates</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">Blockchain's Financial Impact on Traditional Banking</h3>
-                        <p class="text-gray-600 mb-4">Explore how blockchain is reshaping banking with decentralized finance solutions like *InvoFi*.</p>
+                        <p class="text-gray-600 mb-4">Explore how blockchain is reshaping banking with decentralized finance solutions like <span class="color-change-text">*InvoFi*</span>.</p>
                         <a href="https://www.linkedin.com/pulse/blockchains-financial-impact-traditional-banking-new-era-mwendwa-miyif/?trackingId=kLo%2Bi4p%2BQ8iJoMgLmMUMNA%3D%3D" target="_blank" class="text-teal-600 hover:underline">Read on LinkedIn</a>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">How Fintech Dashboards Save SMEs Time</h3>
-                        <p class="text-gray-600 mb-4">Learn how *FinDash* cuts reporting time by 50% with real-time KPI tracking.</p>
+                        <p class="text-gray-600 mb-4">Learn how <span class="color-change-text">*FinDash*</span> cuts reporting time by 50% with real-time KPI tracking.</p>
                         <a href="path/to/blog-fintech-dashboards" class="text-teal-600 hover:underline">Read More</a>
                     </div>
                     <div class="bg-white p-6 rounded-xl shadow-lg animate-card fade-in">
                         <h3 class="text-2xl font-semibold mb-3 text-teal-800">ESG Compliance on a Budget</h3>
-                        <p class="text-gray-600 mb-4">Discover how *ESG Radar* reduces costs by 70% for SMEs.</p>
+                        <p class="text-gray-600 mb-4">Discover how <span class="color-change-text">*ESG Radar*</span> reduces costs by 70% for SMEs.</p>
                         <a href="path/to/blog-esg-compliance" class="text-teal-600 hover:underline">Read More</a>
                     </div>
                 </div>
@@ -384,10 +383,27 @@ html_content = """
         <!-- FAQ Section -->
         <section id="faq" class="py-20 bg-gray-100" role="region" aria-label="FAQ">
             <div class="container mx-auto">
-                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800">Frequently Asked Questions</h2>
+                <h2 class="text-4xl font-bold text-center mb-16 fade-in text-teal-800 color-change-text">Frequently Asked Questions</h2>
                 <div class="bg-white p-6 rounded-xl shadow-lg fade-in">
-                    <p class="text-gray-600 mb-4">Find answers to common questions about our fintech and ESG solutions.</p>
-                    <a href="path/to/faq" class="text-teal-600 hover:underline">View Full FAQ</a>
+                    <div class="faq-item" onclick="toggleFAQ(this)">
+                        <h3 class="text-lg font-semibold text-teal-800 mb-2">What is ESG compliance?</h3>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 mb-4">ESG compliance involves adhering to Environmental, Social, and Governance standards to ensure sustainable and ethical business practices.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFAQ(this)">
+                        <h3 class="text-lg font-semibold text-teal-800 mb-2">How does InvoFi work?</h3>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 mb-4">InvoFi uses blockchain technology to provide decentralized invoice financing, reducing transaction costs and improving liquidity for SMEs.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFAQ(this)">
+                        <h3 class="text-lg font-semibold text-teal-800 mb-2">Can I try your tools for free?</h3>
+                        <div class="faq-answer">
+                            <p class="text-gray-600 mb-4">Yes, we offer free trials for most of our tools, including *FinDash* and *ESG Radar*. Contact us to get started!</p>
+                        </div>
+                    </div>
+                    <a href="path/to/faq" class="text-teal-600 hover:underline mt-4 inline-block">View Full FAQ</a>
                 </div>
             </div>
         </section>
@@ -395,7 +411,7 @@ html_content = """
         <!-- Contact Section -->
         <section id="contact" class="gradient-hero text-white py-20" role="region" aria-label="Contact">
             <div class="container mx-auto text-center">
-                <h2 class="text-4xl font-bold mb-8 fade-in">Unlock Your Potential</h2>
+                <h2 class="text-4xl font-bold mb-8 fade-in color-change-text">Unlock Your Potential</h2>
                 <p class="text-lg max-w-2xl mx-auto mb-8 fade-in">Discuss consulting, SaaS, or partnerships to drive growth.</p>
                 <div class="flex justify-center space-x-4 flex-wrap gap-4">
                     <a href="mailto:nexlifysolutions.team@gmail.com" class="inline-block btn-accent font-semibold py-3 px-8 rounded-full transition-colors fade-in">Email Us</a>
@@ -408,7 +424,7 @@ html_content = """
                 </div>
                 <!-- Newsletter Signup -->
                 <div class="mt-12">
-                    <h3 class="text-2xl font-semibold mb-6 fade-in">Subscribe to Our Newsletter</h3>
+                    <h3 class="text-2xl font-semibold mb-6 fade-in color-change-text">Subscribe to Our Newsletter</h3>
                     <div class="flex justify-center gap-4 flex-wrap mb-8">
                         <a href="https://www.linkedin.com/newsletters/nexlify-solutions-7280665831749898242/" target="_blank" class="inline-block btn-accent font-semibold py-3 px-8 rounded-full transition-colors fade-in">
                             Subscribe on LinkedIn
@@ -424,21 +440,21 @@ html_content = """
 
                     <!-- Solve Your Challenges Subsection -->
                     <div class="mt-12">
-                        <h4 class="text-xl font-semibold mb-6 fade-in">Solve Your Challenges</h4>
+                        <h4 class="text-xl font-semibold mb-6 fade-in color-change-text">Solve Your Challenges</h4>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="bg-white p-4 rounded-xl shadow-lg fade-in">
                                 <h5 class="text-lg font-semibold mb-2 text-teal-800">Inefficient Financial Modeling</h5>
-                                <p class="text-gray-600 mb-2">Automate with *AutoModeler* for 50% faster models.</p>
+                                <p class="text-gray-600 mb-2">Automate with <span class="color-change-text">*AutoModeler*</span> for 50% faster models.</p>
                                 <a href="#solutions" class="text-teal-600 hover:underline">Learn More</a>
                             </div>
                             <div class="bg-white p-4 rounded-xl shadow-lg fade-in">
                                 <h5 class="text-lg font-semibold mb-2 text-teal-800">ESG Compliance</h5>
-                                <p class="text-gray-600 mb-2">Simplify reporting with *ESG Radar*. Cut costs by 70%.</p>
+                                <p class="text-gray-600 mb-2">Simplify reporting with <span class="color-change-text">*ESG Radar*</span>. Cut costs by 70%.</p>
                                 <a href="#solutions" class="text-teal-600 hover:underline">Learn More</a>
                             </div>
                             <div class="bg-white p-4 rounded-xl shadow-lg fade-in">
                                 <h5 class="text-lg font-semibold mb-2 text-teal-800">DeFi Navigation</h5>
-                                <p class="text-gray-600 mb-2">Gain clarity with *DeFi Analytics Suite*.</p>
+                                <p class W="text-gray-600 mb-2">Gain clarity with <span class="color-change-text">*DeFi Analytics Suite*</span>.</p>
                                 <a href="#solutions" class="text-teal-600 hover:underline">Learn More</a>
                             </div>
                         </div>
@@ -446,7 +462,7 @@ html_content = """
 
                     <!-- Client Success Stories Subsection -->
                     <div class="mt-12">
-                        <h4 class="text-xl font-semibold mb-6 fade-in">Client Success Stories</h4>
+                        <h4 class="text-xl font-semibold mb-6 fade-in color-change-text">Client Success Stories</h4>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div class="bg-white p-4 rounded-xl shadow-lg fade-in">
                                 <p class="text-gray-600 mb-2">"*FinDash* streamlined our financial tracking, saving us 20 hours monthly."</p>
@@ -466,7 +482,7 @@ html_content = """
 
                     <!-- Great Other Solutions Subsection -->
                     <div class="mt-12">
-                        <h4 class="text-xl font-semibold mb-6 fade-in">Great Other Solutions</h4>
+                        <h4 class="text-xl font-semibold mb-6 fade-in color-change-text">Great Other Solutions</h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="bg-white p-4 rounded-xl shadow-lg fade-in">
                                 <h5 class="text-lg font-semibold mb-2 text-teal-800">Data-Driven Decision Making</h5>
@@ -488,35 +504,22 @@ html_content = """
     </main>
 
     <!-- Chatbot Button & Window -->
-    <button class="chatbot-btn" onclick="toggleChatbot()" aria-label="Open chatbot" aria-expanded="false" title="Chat with us">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
-        </svg>
-    </button>
-    <div class="chatbot-window" id="chatbot-window" role="dialog" aria-label="Chatbot">
-        <div class="p-4 flex flex-col h-96">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-teal-800">Nexlify Assistant</h3>
-                <button onclick="toggleChatbot()" class="text-gray-600 hover:text-teal-800" aria-label="Close chatbot">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+    <div class="chatbot-btn" onclick="toggleChatbot()" title="Chat with us">
+        💬
+    </div>
+    <div class="chatbot-window" id="chatbot-window">
+        <div class="p-4">
+            <h3 class="text-lg font-semibold text-teal-800">Welcome to Nexlify!</h3>
+            <p class="text-gray-600 mb-2">Ask about our fintech/ESG solutions.</p>
+            <input type="text" id="chatbot-input" placeholder="Type your question..." class="w-full p-2 rounded border mb-2">
+            <button onclick="submitChat()" class="btn-accent py-2 px-4 rounded">Send</button>
+            <div class="mt-4">
+                <p class="text-gray-600 mb-2">Quick Questions:</p>
+                <div class="quick-reply-btn" onclick="quickReply('What is ESG compliance?')">What is ESG?</div>
+                <div class="quick-reply-btn" onclick="quickReply('How does InvoFi work?')">How does InvoFi work?</div>
+                <div class="quick-reply-btn" onclick="quickReply('Can I try your tools for free?')">Free trials?</div>
             </div>
-            <div class="flex-1 overflow-y-auto mb-4 p-2 bg-gray-50 rounded-lg" id="chatbot-messages">
-                <p class="text-gray-600">Hi! Ask about our fintech or ESG solutions.</p>
-            </div>
-            <div class="flex flex-col gap-2">
-                <div class="flex gap-2">
-                    <input type="text" id="chatbot-input" placeholder "Type your question..." class="flex-1 p-2 rounded border focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Chatbot input">
-                    <button onclick="submitChat()" class="btn-accent py-2 px-4 rounded" aria-label="Send message">Send</button>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                    <button onclick="quickReply('What is ESG Radar?')" class="text-sm text-teal-600 hover:underline">What is ESG Radar?</button>
-                    <button onclick="quickReply('How does InvoFi work?')" class="text-sm text-teal-600 hover:underline">How does InvoFi work?</button>
-                    <button onclick="quickReply('Can I get a demo?')" class="text-sm text-teal-600 hover:underline">Can I get a demo?</button>
-                </div>
-            </div>
+            <p class="text-gray-600 mt-2">For now, contact us via <a href="mailto:nexlifysolutions.team@gmail.com" class="text-teal-600">email</a> or <a href="https://wa.me/254712238286" class="text-teal-600">WhatsApp</a>.</p>
         </div>
     </div>
 
@@ -564,76 +567,33 @@ html_content = """
                     duration: 0.6
                 });
             });
+
+            // Duplicate testimonial track for seamless looping
+            const track = document.querySelector('.testimonial-track');
+            track.innerHTML += track.innerHTML;
         });
 
         // Chatbot functionality
         function toggleChatbot() {
             const chatbotWindow = document.getElementById('chatbot-window');
-            const chatbotBtn = document.querySelector('.chatbot-btn');
-            const isActive = chatbotWindow.classList.toggle('active');
-            chatbotBtn.setAttribute('aria-expanded', isActive);
-            if (isActive) {
-                document.getElementById('chatbot-input').focus();
-            }
+            chatbotWindow.classList.toggle('active');
         }
 
         function submitChat() {
-            const input = document.getElementById('chatbot-input');
-            const messages = document.getElementById('chatbot-messages');
-            const message = input.value.trim();
-            if (!message) return;
-
-            const userMsg = document.createElement('p');
-            userMsg.className = 'user';
-            userMsg.textContent = message;
-            messages.appendChild(userMsg);
-
-            setTimeout(() => {
-                const botMsg = document.createElement('p');
-                botMsg.className = 'bot';
-                botMsg.textContent = getBotResponse(message);
-                messages.appendChild(botMsg);
-                messages.scrollTop = messages.scrollHeight;
-            }, 500);
-
-            input.value = '';
-            messages.scrollTop = messages.scrollHeight;
+            const input = document.getElementById('chatbot-input').value;
+            alert('Your question: ' + input + '\nWe’ll get back to you soon! For now, use email or WhatsApp.');
         }
 
-        function quickReply(message) {
-            document.getElementById('chatbot-input').value = message;
+        function quickReply(question) {
+            document.getElementById('chatbot-input').value = question;
             submitChat();
         }
 
-        function getBotResponse(message) {
-            message = message.toLowerCase();
-            if (message.includes('esg radar')) {
-                return 'ESG Radar simplifies compliance, cutting reporting costs by 70%. Want to learn more?';
-            } else if (message.includes('invofi')) {
-                return 'InvoFi uses blockchain for low-cost invoice financing, saving 60% on transactions. Interested in a demo?';
-            } else if (message.includes('demo')) {
-                return 'We can schedule a free demo! Contact us via email (nexlifysolutions.team@gmail.com) or WhatsApp.';
-            } else {
-                return 'Thanks for your question! For detailed answers, contact us via email or WhatsApp.';
-            }
-        }
-
-        document.getElementById('chatbot-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') submitChat();
-        });
-
-        // Testimonials animation control
-        function pauseAnimation() {
-            document.querySelector('.testimonials-track').classList.add('paused');
-        }
-
-        function resumeAnimation() {
-            document.querySelector('.testimonials-track').classList.remove('paused');
+        // FAQ toggle
+        function toggleFAQ(element) {
+            const answer = element.querySelector('.faq-answer');
+            answer.classList.toggle('active');
         }
     </script>
 </body>
 </html>
-"""
-
-# Render HTML content
-components.html(html_content, height=2000, scrolling=True)
